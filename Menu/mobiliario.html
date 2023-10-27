@@ -1,0 +1,188 @@
+<html>
+<head>
+    <title>Tarifa de Mobiliario</title>
+    <link rel="stylesheet" href="estilosmobiliario.css">
+</head>
+<body>
+    <div class="img1"></div>
+
+<div class="text1">   
+    <h1>Bienvenido a P&P - Calculadora de Tarifas de Envío de Mobiliario</h1>
+    <p>Intrucciones: A continuacion se le mostrara la tarifa de envio (Total de su envio), los kilometros (Km) al destino, la ubiacion y el tipo de mercaderia que va a envia. Solo llene lo que se le indique. Gracias.
+    </p></div>
+
+
+    <p>¿Sabes el peso del paquete? (Escribe 'si' o 'no' y presiona el botón)</p>
+    <input type="text" id="respuestaInput">
+    <button id="responderBtn">Responder</button>
+
+    <div id="contenidoAdicional" style="display: none;">
+        <label for="ubicacion">Seleccione la ubicación de destino:</label>
+        <select id="ubicacion">
+            <option value="10" data-distancia="10">Guatemala</option>
+            <option value="300" data-distancia="300">Izabal</option>
+            <option value="460" data-distancia="460">Petén</option>
+            <option value="178" data-distancia="178">Chiquimula</option>
+            <option value="200" data-distancia="200">Retalhuleu</option>
+        </select><br>
+
+        <label for="tipo-mercancia">Seleccione el tipo de mercancía:</label>
+        <select id="tipo-mercancia">
+            <option value="Paqueteria">Mobiliario</option>
+        </select><br>
+
+<div class="text2">        <h1>Ingrese el peso en kg</h1>
+    <form id="calculoVolumenForm">
+        <label for="peso">Peso:</label>
+        <input type="number" id="peso" name="peso" step="0.01" required>
+        <button type="button" onclick="calcularEnvio()">Calcular</button>
+    </form></div>
+        
+        <div id="resultados"></div>
+
+        <script>
+            function calcularEnvio() {
+                var peso = parseFloat(document.getElementById("peso").value);
+                var ubicacion = document.getElementById("ubicacion");
+                var tipoMercancia = document.getElementById("tipo-mercancia");
+                var resultadosDiv = document.getElementById("resultados");
+
+                if (isNaN(peso)) {
+                    resultadosDiv.textContent = "Por favor, ingrese un valor válido en el campo de peso.";
+                } else {
+                    var resultadoubicacion = parseFloat(ubicacion.value) * 0.13;
+                    var distancia = parseFloat(ubicacion.options[ubicacion.selectedIndex].getAttribute("data-distancia"));
+                    var resultado = (peso * 2.5) + resultadoubicacion;
+                    resultado = resultado.toFixed(2);
+
+                    resultadosDiv.innerHTML = "Su precio a pagar es de: Q. " + resultado + "<br>Ubicación: " + ubicacion.options[ubicacion.selectedIndex].text + "<br>Tipo de mercancía: " + tipoMercancia.options[tipoMercancia.selectedIndex].text + "<br>Distancia: " + distancia + " km";
+
+
+                    alert("Su precio a pagar es de: Q. " + resultado + "\nUbicación: " + ubicacion.options[ubicacion.selectedIndex].text + "\nTipo de mercancía: " + tipoMercancia.options[tipoMercancia.selectedIndex].text + "\nDistancia: " + distancia + " km");
+
+                    if (peso >= 35) {
+                alert("El resultado es mayor a 35Kg. Lametablemente no lo podemos enviar. Gracias..");
+            }
+                }
+            }
+        </script>
+    </div>
+
+    <script>
+        var respuestaInput = document.getElementById("respuestaInput");
+        var responderBtn = document.getElementById("responderBtn");
+        var contenidoAdicional = document.getElementById("contenidoAdicional");
+
+        responderBtn.addEventListener("click", function() {
+            var respuesta = respuestaInput.value.toLowerCase();
+
+            if (respuesta === "si") {
+                contenidoAdicional.style.display = "block";
+            } else if (respuesta === "no") {
+                contenidoAdicional.style.display = "none";
+            } else {
+                alert("Respuesta no válida. Por favor, ingrese 'si' o 'no'.");
+                contenidoAdicional.style.display = "none";
+            }
+        });
+    </script>
+
+
+<div id="contenidoAdicionalNo" style="display: none;">
+    <label for="ubicacionNo">Seleccione la ubicación de destino:</label>
+    <select id="ubicacionNo">
+        <option value="10" data-distancia="10">Guatemala</option>
+        <option value="300" data-distancia="300">Izabal</option>
+        <option value="460" data-distancia="460">Petén</option>
+        <option value="178" data-distancia="178">Chiquimula</option>
+        <option value="200" data-distancia="200">Retalhuleu</option>
+    </select><br>
+
+    <label for="tipo-mercanciaNo">Tipo de mercancía:</label>
+    <select id="tipo-mercanciaNo">
+        <option value="Paqueteria">Mobiliario</option>
+    </select><br>
+
+
+<div class="text3">    <h1>Calcular Volumen</h1>
+    <form id="calculoVolumenForm">
+        <label for="largo">Largo:</label>
+        <input type="number" id="largo" name="largo" step="0.01" required>
+
+        <label for="ancho">Ancho:</label>
+        <input type="number" id="ancho" name="ancho" step="0.01" required>
+
+        <label for="alto">Alto:</label>
+        <input type="number" id="alto" name="alto" step="0.01" required>
+
+        <button type="button" onclick="calcularVolumen()">Calcular</button>
+    </form></div>
+
+    <div id="resultado"></div>
+
+    <script>
+        function calcularVolumen() {
+            var largo = parseFloat(document.getElementById("largo").value);
+            var ancho = parseFloat(document.getElementById("ancho").value);
+            var alto = parseFloat(document.getElementById("alto").value);
+            var ubicacionNo = parseFloat(document.getElementById("ubicacionNo").value);
+            var tipoMercanciaNo = document.getElementById("tipo-mercanciaNo").value;
+
+            if (isNaN(largo) || isNaN(ancho) || isNaN(alto)) {
+                document.getElementById("resultado").innerHTML = "Por favor, ingresa valores válidos en todos los campos.";
+            } else {
+                var volumen = (largo * ancho * alto) / 2272;
+                var resultadoubicacion = ubicacionNo * 0.13;
+                var distancia = parseFloat(document.getElementById("ubicacionNo").options[document.getElementById("ubicacionNo").selectedIndex].getAttribute("data-distancia"));
+                var resultado = (volumen * 2.5) + resultadoubicacion;
+                resultado = resultado.toFixed(2);
+
+
+                document.getElementById("resultado").innerHTML = 
+                    "<div>Su precio a pagar es de: Q. " + resultado + "</div>" +
+                    "<div>Ubicación: " + document.getElementById("ubicacionNo").options[document.getElementById("ubicacionNo").selectedIndex].text + "</div>" +
+                    "<div>Tipo de mercancía: " + tipoMercanciaNo + "</div>" +
+                    "<div>Distancia: " + distancia + " km</div>";
+
+
+                var mensaje = "Su precio a pagar es de: Q. " + resultado + "\nUbicación: " + document.getElementById("ubicacionNo").options[document.getElementById("ubicacionNo").selectedIndex].text + "\nTipo de mercancía: " + tipoMercanciaNo + "\nDistancia: " + distancia + " km";
+                alert(mensaje);
+                if (resultado >= 50) {
+                alert("El resultado es mayor a 50Kg. Lametablemente no lo podemos enviar. Gracias.");
+            }
+            }
+        }
+    </script>
+
+</div>
+
+<script>
+    var respuestaInput = document.getElementById("respuestaInput");
+    var responderBtn = document.getElementById("responderBtn");
+    var contenidoAdicional = document.getElementById("contenidoAdicional");
+    var contenidoAdicionalNo = document.getElementById("contenidoAdicionalNo");
+
+    responderBtn.addEventListener("click", function() {
+        var respuesta = respuestaInput.value.toLowerCase();
+
+        if (respuesta === "si") {
+            contenidoAdicional.style.display = "block";
+            contenidoAdicionalNo.style.display = "none";
+        } else if (respuesta === "no") {
+            contenidoAdicional.style.display = "none";
+            contenidoAdicionalNo.style.display = "block";
+        } else {
+            alert("Respuesta no válida. Por favor, ingrese 'si' o 'no'.");
+            contenidoAdicional.style.display = "none";
+            contenidoAdicionalNo.style.display = "none";
+        }
+    });
+</script>
+<br>
+<br>
+<div class="botones">
+<a href="Botones.html" class="btn btn-formulario btn-2">Regresar</a>
+</div>
+
+</body>
+</html>
